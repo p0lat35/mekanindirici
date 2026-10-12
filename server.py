@@ -60,8 +60,32 @@ venue_module = VenueModule(api_key=GEMINI_KEY, serper_key=SERPER_KEY) if GEMINI_
 
 @app.route("/")
 def index():
-    """Ana sayfa"""
+    """Ana sayfa — hem ana dizindeki index.html hem de templates/index.html ile çalışır"""
+    for p in [os.path.join(BASE_DIR, "index.html"), os.path.join(BASE_DIR, "templates", "index.html")]:
+        if os.path.exists(p):
+            with open(p, "r", encoding="utf-8") as f:
+                return Response(f.read(), mimetype="text/html")
     return render_template("index.html")
+
+
+@app.route("/static/js/app.js")
+@app.route("/app.js")
+def serve_js():
+    for p in [os.path.join(BASE_DIR, "app.js"), os.path.join(BASE_DIR, "static", "js", "app.js")]:
+        if os.path.exists(p):
+            with open(p, "r", encoding="utf-8") as f:
+                return Response(f.read(), mimetype="application/javascript")
+    return "", 404
+
+
+@app.route("/static/css/custom.css")
+@app.route("/custom.css")
+def serve_css():
+    for p in [os.path.join(BASE_DIR, "custom.css"), os.path.join(BASE_DIR, "static", "css", "custom.css")]:
+        if os.path.exists(p):
+            with open(p, "r", encoding="utf-8") as f:
+                return Response(f.read(), mimetype="text/css")
+    return "", 404
 
 
 @app.route("/api/status", methods=["GET"])

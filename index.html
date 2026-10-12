@@ -1,0 +1,1594 @@
+﻿<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>🏪 Mekan & Restoran İndirici (Polat Web v2.0 Ultra)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+/* Custom CSS — Mekan & Restoran İndirici Web */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+textarea {
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.copy-btn {
+  transition: all 0.15s ease-in-out;
+}
+.copy-btn:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+.copy-btn:active {
+  transform: translateY(0);
+}
+
+.tab-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card hover glow */
+.card-hover {
+  transition: all 0.2s ease;
+}
+.card-hover:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+</style>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+            },
+            islamic: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- MANEVİ AÇILIŞ ÜST BANDI -->
+  <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">🏪</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-lg text-white tracking-wide">Mekan & Restoran İndirici</h1>
+            <span class="bg-blue-600/30 text-blue-400 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-500/30">Polat Web v2.0 Ultra</span>
+          </div>
+          <p class="text-xs text-slate-400">Sınırsız mekan araştırması, 1200×675 kapak, künye, hizmetler ve zengin açıklama motoru</p>
+        </div>
+      </div>
+
+      <!-- Manevi Rozet -->
+      <div class="hidden md:flex items-center gap-2 bg-emerald-950/70 border border-emerald-800/60 px-3.5 py-1.5 rounded-full text-xs text-emerald-300 shadow-sm">
+        <span class="text-sm">﷽</span>
+        <span class="font-semibold tracking-wide">Lâ ilâhe illallâh Muhammedün Resûlullâh</span>
+        <span class="text-emerald-500">•</span>
+        <span class="italic text-emerald-400">Allâhümme salli alâ seyyidinâ Muhammed</span>
+      </div>
+
+      <!-- Sağ Butonlar -->
+      <div class="flex items-center gap-2">
+        <button id="btnSettingsModal" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-gear text-slate-400"></i>
+          <span>API Ayarları</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ANA İÇERİK KONTEYNERİ -->
+  <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-1 flex flex-col gap-6">
+
+    <!-- ARAMA & İL SEÇİM ALANI -->
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex flex-col gap-4">
+        <!-- Manevi Başlık -->
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+          <div class="flex items-center gap-2 text-emerald-400 text-xs font-semibold">
+            <span>✨</span>
+            <span>« MâşâAllâh • BârekAllâh • Lâ Havle Ve Lâ Kuvvete İllâ Billâhil Aliyyil Azîm »</span>
+          </div>
+          <div class="text-xs text-slate-400">
+            <span>« Hasbünallâhu ve ni'mel vekîl • Elhamdülillâh »</span>
+          </div>
+        </div>
+
+        <!-- İl Seçimi ve Popüler Butonlar -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-2 text-sm text-slate-300 font-medium">
+            <i class="fa-solid fa-location-dot text-blue-400"></i>
+            <span>Şehir / İl:</span>
+          </div>
+          
+          <select id="citySelect" class="bg-slate-800 border border-slate-700 text-slate-100 text-sm rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500 outline-none">
+            <!-- 81 İl JS ile doldurulacak -->
+          </select>
+
+          <!-- Popüler Şehir Chips -->
+          <div class="flex flex-wrap gap-1.5" id="popularCities">
+            <!-- Popüler iller -->
+          </div>
+        </div>
+
+        <!-- Arama Çubuğu -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="﷽ Bismillah ile mekan adı girin (örn: Karaköy Güllüoğlu, Nusret, Big Chefs...)" 
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-11 pr-4 py-3.5 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none text-base transition"
+            >
+          </div>
+          <button 
+            id="searchBtn" 
+            class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-7 py-3.5 rounded-xl shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition active:scale-95 disabled:opacity-50"
+          >
+            <i class="fa-solid fa-search"></i>
+            <span>Mekanı Bul</span>
+          </button>
+        </div>
+
+        <!-- Önbellekteki Mekanlar Şeridi -->
+        <div id="cachedVenuesSection" class="hidden pt-1">
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-2">
+            <i class="fa-solid fa-bolt text-emerald-400"></i>
+            <span>Önbellekteki Mekanlar (0 API Kredisiyle Anında Açılır):</span>
+          </div>
+          <div id="cachedVenuesList" class="flex flex-wrap gap-2">
+            <!-- Önbellek butonları -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- YÜKLENİYOR DURUMU -->
+    <div id="loadingIndicator" class="hidden flex-col items-center justify-center py-12 gap-3 text-center">
+      <div class="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+      <p id="loadingText" class="text-slate-300 font-medium text-sm animate-pulse">Mekan taranıyor ve yapay zeka bilgileri derleniyor...</p>
+    </div>
+
+    <!-- SONUÇLAR ALANI (GİZLİ BAŞLAR) -->
+    <section id="resultsSection" class="hidden flex-col gap-6">
+
+      <!-- MEKAN ÜST BAŞLIK & İNDİRME EYLEM ÇUBUĞU -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl font-bold shadow-inner">
+            🏪
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 id="resultVenueTitle" class="text-2xl font-extrabold text-white">Mekan Adı</h2>
+              <span id="resultRatingBadge" class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full">⭐ 4.5</span>
+              <span id="resultPriceBadge" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full">$$ Orta</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5 flex-wrap">
+              <span id="resultCuisineBadge" class="text-slate-300 font-medium">Geleneksel Türk Mutfağı</span>
+              <span>•</span>
+              <span id="resultCityBadge" class="text-blue-400 font-medium">İstanbul</span>
+              <span>•</span>
+              <span id="resultCacheBadge" class="text-emerald-400 font-medium">⚡ Canlı Sorgu</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eylem Butonları -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button id="btnRescan" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 flex items-center gap-2 transition">
+            <i class="fa-solid fa-rotate"></i>
+            <span>Yeniden Tara (API)</span>
+          </button>
+          
+          <button id="btnDownloadCoverTop" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 flex items-center gap-2 transition disabled:opacity-50">
+            <i class="fa-solid fa-star"></i>
+            <span>⭐ 1200×675 Kapak İndir</span>
+          </button>
+
+          <button id="btnDownloadSelectedZip" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center gap-2 transition disabled:opacity-50">
+            <i class="fa-solid fa-download"></i>
+            <span id="btnDownloadSelectedZipText">⬇ Seçilenleri İndir</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİ KOLONLU ÇALIŞMA ALANI -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- SOL KOLON: FOTOĞRAFLAR & 1200x675 KAPAK (5.5 Kolon) -->
+        <div class="lg:col-span-6 flex flex-col gap-5">
+          
+          <!-- 1200×675 KAPAK FOTOĞRAFI KARTI -->
+          <div class="bg-slate-900 border-2 border-blue-600/40 rounded-2xl overflow-hidden shadow-2xl relative">
+            <div class="p-3.5 bg-slate-800/80 border-b border-slate-700 flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow">
+                  ⭐ ANA GÖRSEL / KAPAK (1200×675)
+                </span>
+                <span id="coverStatusText" class="text-xs text-blue-300 font-medium">⏳ Fotoğraflar taranıyor...</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="btnSaveCoverHeader" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition disabled:opacity-50 flex items-center gap-1.5">
+                  <i class="fa-solid fa-floppy-disk"></i>
+                  <span>💾 İndir</span>
+                </button>
+                <a id="btnZoomCover" href="#" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg transition">
+                  <i class="fa-solid fa-expand"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Kapak Görseli 16:9 Önizleme -->
+            <div class="relative w-full aspect-[16/9] bg-slate-950 flex items-center justify-center overflow-hidden group">
+              <img id="coverImgPreview" src="" alt="1200x675 Kapak" class="hidden w-full h-full object-cover transition duration-300">
+              <div id="coverImgPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-slate-500 p-6 text-center">
+                <div class="w-10 h-10 border-3 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+                <span class="text-sm font-medium text-slate-400">En kaliteli fotoğraf seçilip 1200×675 HD formatına getiriliyor...</span>
+              </div>
+            </div>
+
+            <!-- Kapak Alt Buton (Geniş & Belirgin) -->
+            <div class="p-3 bg-slate-900 border-t border-slate-800 flex flex-col gap-2">
+              <button id="btnSaveCoverLarge" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition disabled:opacity-50">
+                <i class="fa-solid fa-cloud-arrow-down text-base"></i>
+                <span>💾 1200×675 Kapak Görselini İndir (HD Web Format)</span>
+              </button>
+              <p class="text-[11px] text-slate-400 text-center">
+                💡 Bu görsel otomatik olarak 1200×675 HD web formatına dönüştürülmüştür. Aşağıdaki galeriden <b>"⭐ Kapak Yap"</b> butonuna basarak değiştirebilirsiniz.
+              </p>
+            </div>
+          </div>
+
+          <!-- GALERİ KARTI -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-camera text-blue-400"></i>
+                <h3 class="font-bold text-white text-base">Tüm Fotoğraflar (Galeri)</h3>
+                <span id="photoCountBadge" class="bg-slate-800 text-slate-300 text-xs px-2.5 py-0.5 rounded-full border border-slate-700">Taranıyor...</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <label class="flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer select-none">
+                  <input type="checkbox" id="selectAllCheckbox" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-0" checked>
+                  <span>Tümünü Seç</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Fotoğraf Izgarası -->
+            <div id="photosGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[640px] overflow-y-auto pr-1">
+              <div class="col-span-full py-12 flex flex-col items-center justify-center gap-3 text-slate-400 text-sm">
+                <div class="w-8 h-8 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+                <span>Fotoğraflar toplanıyor ve canlı kontrol ediliyor...</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SAĞ KOLON: KAPSAMLI BİLGİ, KÜNYE, HİZMETLER & METİNLER (6.5 Kolon) -->
+        <div class="lg:col-span-6 flex flex-col gap-4">
+
+          <!-- SEKME SEÇİCİ (MODERN TABLAR) -->
+          <div class="bg-slate-900 border border-slate-800 p-1.5 rounded-2xl flex items-center gap-1 overflow-x-auto shadow-md">
+            <button type="button" class="tab-btn flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow" data-tab="tabArticles">
+              <i class="fa-solid fa-file-lines"></i>
+              <span>Açıklama & Makaleler</span>
+            </button>
+            <button type="button" class="tab-btn flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800" data-tab="tabDetails">
+              <i class="fa-solid fa-address-card"></i>
+              <span>Mekan Künyesi & Fiyat</span>
+            </button>
+            <button type="button" class="tab-btn flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800" data-tab="tabServices">
+              <i class="fa-solid fa-bell-concierge"></i>
+              <span>Hizmetler & Saatler</span>
+            </button>
+            <button type="button" class="tab-btn py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-400 hover:text-white hover:bg-slate-800" data-tab="tabAll">
+              <i class="fa-solid fa-table-cells"></i>
+              <span>Tümünü Gör</span>
+            </button>
+          </div>
+
+          <!-- ══════ SEKME 1: AÇIKLAMA & MAKALELER ══════ -->
+          <div id="tabArticles" class="tab-content flex flex-col gap-4">
+
+            <!-- 1. BÖLÜM: MEKAN BİLGİLERİ KARTI -->
+            <div class="bg-white text-slate-900 rounded-2xl p-5 shadow-xl border border-slate-200">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                <h3 class="text-xl font-black text-black tracking-tight">Mekan Bilgileri</h3>
+                <button 
+                  class="copy-btn bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-300 flex items-center gap-1.5 transition active:scale-95" 
+                  data-target="txtBilgiler" 
+                  data-title="Mekan Bilgileri"
+                >
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Kopyala</span>
+                </button>
+              </div>
+              <textarea 
+                id="txtBilgiler" 
+                rows="6" 
+                class="w-full text-slate-800 text-sm leading-relaxed p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none resize-y"
+              ></textarea>
+            </div>
+
+            <!-- 2. BÖLÜM: [MEKAN ADI]'NDA NE YENİR? KARTI -->
+            <div class="bg-white text-slate-900 rounded-2xl p-5 shadow-xl border border-slate-200 relative">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-3xl text-slate-300 font-serif leading-none select-none">❝</span>
+                <button 
+                  class="copy-btn bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-300 flex items-center gap-1.5 transition active:scale-95" 
+                  data-target="txtNeYenir" 
+                  data-title="Ne Yenir"
+                >
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Kopyala</span>
+                </button>
+              </div>
+              
+              <h3 id="neYenirHeading" class="text-xl font-black text-black text-center mb-1">
+                Mekanda Ne Yenir?
+              </h3>
+              <div class="w-16 h-0.5 bg-slate-300 mx-auto mb-4"></div>
+
+              <textarea 
+                id="txtNeYenir" 
+                rows="7" 
+                class="w-full text-slate-800 text-sm leading-relaxed p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none resize-y"
+              ></textarea>
+            </div>
+
+            <!-- 3. BÖLÜM: EDİTÖR NOTU KARTI -->
+            <div class="bg-white text-slate-900 rounded-2xl p-5 shadow-xl border border-slate-200">
+              <h3 class="text-xl font-black text-black tracking-tight mb-3">Editör Notu</h3>
+
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-orange-600 text-white flex items-center justify-center text-lg font-bold shadow-md shadow-orange-600/30">
+                    ✍️
+                  </div>
+                  <div>
+                    <h4 id="editorTeamTitle" class="text-sm font-bold text-black">İstanbul Mekan Rehberi Editör Ekibi</h4>
+                    <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5">
+                      <i class="fa-solid fa-shield-halved text-[9px]"></i> Doğrulanmış İşletme
+                    </span>
+                  </div>
+                </div>
+
+                <button 
+                  class="copy-btn bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-300 flex items-center gap-1.5 transition active:scale-95" 
+                  data-target="txtEditor" 
+                  data-title="Editör Notu"
+                >
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Kopyala</span>
+                </button>
+              </div>
+
+              <textarea 
+                id="txtEditor" 
+                rows="5" 
+                class="w-full text-slate-800 text-sm leading-relaxed p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none resize-y"
+              ></textarea>
+
+              <div class="mt-3 pt-2 border-t border-slate-100 flex items-center text-xs text-slate-500">
+                <i class="fa-regular fa-clock mr-1.5"></i>
+                <span id="editorDateText">Son güncelleme: 07.10.2026</span>
+              </div>
+            </div>
+
+            <!-- ANA KOPYALAMA BUTONU (TÜMÜ) -->
+            <button 
+              id="btnCopyAll" 
+              class="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-2xl text-base font-extrabold shadow-xl shadow-blue-600/30 flex items-center justify-center gap-2.5 transition active:scale-95"
+            >
+              <i class="fa-regular fa-copy text-lg"></i>
+              <span>📋 Tüm Açıklamayı Kopyala (Başlıklarıyla Birlikte)</span>
+            </button>
+
+          </div>
+
+          <!-- ══════ SEKME 2: MEKAN KÜNYESİ & FİYATLAR ══════ -->
+          <div id="tabDetails" class="tab-content hidden flex-col gap-4">
+
+            <!-- İLETİŞİM & ADRES KARTI -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot text-blue-400"></i>
+                  <span>İletişim & Konum Bilgileri</span>
+                </h3>
+                <button id="btnCopyAddressOnly" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded-lg border border-slate-700 flex items-center gap-1 transition">
+                  <i class="fa-regular fa-copy"></i> <span>Adresi Kopyala</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 gap-3.5 text-sm">
+                <!-- Adres -->
+                <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
+                    📍
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-xs text-slate-400 font-semibold block">Açık Adres</span>
+                    <p id="fieldAddress" class="text-slate-200 font-medium mt-0.5 select-all leading-relaxed">Adres yükleniyor...</p>
+                    <div class="mt-2 flex gap-2">
+                      <a id="btnOpenMaps" href="#" target="_blank" class="text-xs bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-lg inline-flex items-center gap-1 transition">
+                        <i class="fa-solid fa-map-location-dot"></i> Google Haritada Aç
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Telefon -->
+                <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center shrink-0">
+                      📞
+                    </div>
+                    <div>
+                      <span class="text-xs text-slate-400 font-semibold block">Telefon Numarası</span>
+                      <a id="fieldPhone" href="tel:" class="text-slate-100 font-bold hover:text-emerald-400 transition select-all">-</a>
+                    </div>
+                  </div>
+                  <button id="btnCopyPhoneOnly" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1 transition">
+                    <i class="fa-regular fa-copy"></i> <span>Kopyala</span>
+                  </button>
+                </div>
+
+                <!-- Web Sitesi & Instagram -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-purple-600/20 text-purple-400 flex items-center justify-center shrink-0">
+                      🌐
+                    </div>
+                    <div class="overflow-hidden">
+                      <span class="text-xs text-slate-400 font-semibold block">Web Sitesi</span>
+                      <a id="fieldWebsite" href="#" target="_blank" class="text-xs text-purple-300 hover:underline truncate block">-</a>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-pink-600/20 text-pink-400 flex items-center justify-center shrink-0">
+                      📸
+                    </div>
+                    <div class="overflow-hidden">
+                      <span class="text-xs text-slate-400 font-semibold block">Instagram</span>
+                      <a id="fieldInstagram" href="#" target="_blank" class="text-xs text-pink-300 hover:underline truncate block">-</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Kapasite & Kuruluş Yılı -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <span class="text-lg">👥</span>
+                    <div>
+                      <span class="text-xs text-slate-400 font-semibold block">Kapasite</span>
+                      <span id="fieldCapacity" class="text-xs text-slate-200 font-medium">-</span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <span class="text-lg">📅</span>
+                    <div>
+                      <span class="text-xs text-slate-400 font-semibold block">Kuruluş Yılı</span>
+                      <span id="fieldYear" class="text-xs text-slate-200 font-medium">-</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- FİYATLAR & MENÜ KARTI -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-solid fa-coins text-amber-400"></i>
+                  <span>Fiyatlandırma & Ortalama Maliyetler</span>
+                </h3>
+                <span id="badgePriceLevel" class="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-bold">$$ (Orta)</span>
+              </div>
+
+              <!-- Fiyat Aralığı Büyük Banner -->
+              <div class="bg-gradient-to-r from-blue-950/60 to-slate-900 border border-blue-800/40 p-4 rounded-xl flex items-center justify-between">
+                <div>
+                  <span class="text-xs text-slate-400 font-semibold block">💰 Ortalama Fiyat Aralığı</span>
+                  <span id="fieldPriceRange" class="text-lg font-black text-white tracking-wide">350 - 700 TL (Kişi Başı)</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs text-slate-400 font-semibold block">⭐ Google Puanı</span>
+                  <span id="fieldRating" class="text-sm font-bold text-amber-400">4.4/5 (1200+ yorum)</span>
+                </div>
+              </div>
+
+              <!-- Ortalama Menü Fiyatları -->
+              <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl">
+                  <span class="text-xs text-slate-400 block mb-1">🍽️ Ana Yemek</span>
+                  <span id="priceMainDish" class="text-sm font-bold text-emerald-400">350 - 550 TL</span>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl">
+                  <span class="text-xs text-slate-400 block mb-1">☕ İçecek</span>
+                  <span id="priceDrink" class="text-sm font-bold text-blue-400">60 - 100 TL</span>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl">
+                  <span class="text-xs text-slate-400 block mb-1">🍰 Tatlı</span>
+                  <span id="priceDessert" class="text-sm font-bold text-pink-400">130 - 200 TL</span>
+                </div>
+              </div>
+
+              <!-- Popüler Ürünler / Menü Spesiyalleri -->
+              <div>
+                <span class="text-xs text-slate-400 font-bold block mb-2 flex items-center gap-1.5">
+                  <i class="fa-solid fa-fire text-orange-400"></i> Popüler Ürünler & Menü Spesiyalleri:
+                </span>
+                <div id="popularItemsList" class="flex flex-wrap gap-2">
+                  <!-- Popüler ürün rozetleri -->
+                </div>
+              </div>
+            </div>
+
+            <!-- KÜNYEYİ KOPYALA BUTONU -->
+            <button id="btnCopyVenueDossier" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 py-3.5 rounded-xl text-sm font-bold border border-slate-700 flex items-center justify-center gap-2 transition active:scale-95">
+              <i class="fa-regular fa-copy"></i>
+              <span>📊 Tüm Mekan Künyesini Liste Formatında Kopyala</span>
+            </button>
+
+          </div>
+
+          <!-- ══════ SEKME 3: HİZMETLER, SAATLER & ÖDEME ══════ -->
+          <div id="tabServices" class="tab-content hidden flex-col gap-4">
+
+            <!-- 14 HİZMET ROZETLERİ -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-solid fa-concierge-bell text-emerald-400"></i>
+                  <span>Mekan Hizmetleri & Olanaklar (14 Hizmet)</span>
+                </h3>
+              </div>
+
+              <div id="servicesGrid" class="grid grid-cols-2 sm:grid-cols-2 gap-2.5">
+                <!-- Hizmet rozetleri JS ile doldurulur -->
+              </div>
+            </div>
+
+            <!-- ÖDEME TİPLERİ & OTOPARK -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-solid fa-credit-card text-blue-400"></i>
+                  <span>Ödeme Seçenekleri & Otopark</span>
+                </h3>
+              </div>
+
+              <div id="paymentGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <!-- Ödeme tipleri JS ile doldurulur -->
+              </div>
+            </div>
+
+            <!-- HAFTALIK ÇALIŞMA SAATLERİ (7 GÜN) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                  <i class="fa-regular fa-clock text-blue-400"></i>
+                  <span>Haftalık Çalışma Saatleri (7 Gün)</span>
+                </h3>
+                <span id="badgeCurrentOpenStatus" class="text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">Açık</span>
+              </div>
+
+              <div id="workingHoursList" class="flex flex-col divide-y divide-slate-800 text-xs">
+                <!-- 7 Gün JS ile doldurulur -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ══════ SEKME 4: TÜMÜNÜ GÖR (HEPSİ BİR ARADA) ══════ -->
+          <div id="tabAll" class="tab-content hidden flex-col gap-4">
+            <!-- JS tarafından otomatik yönetilir -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- AYARLAR MODALI -->
+  <div id="settingsModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-white text-base flex items-center gap-2">
+          <i class="fa-solid fa-key text-blue-400"></i>
+          <span>API Ayarları</span>
+        </h3>
+        <button id="btnCloseSettingsModal" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">
+            🤖 Google Gemini API Anahtarı (Ücretsiz)
+          </label>
+          <input 
+            type="password" 
+            id="modalGeminiKey" 
+            placeholder="AIzaSy..." 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-blue-500"
+          >
+          <p class="text-[11px] text-slate-400 mt-1">
+            aistudio.google.com/app/apikey adresinden ücretsiz alabilirsiniz.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">
+            🔍 Serper.dev Google Places Anahtarı (Opsiyonel)
+          </label>
+          <input 
+            type="text" 
+            id="modalSerperKey" 
+            placeholder="332043126..." 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-blue-500"
+          >
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+        <button id="btnSaveSettings" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow transition">
+          Kaydet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST BİLDİRİMİ -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-emerald-500/50 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+      ✓
+    </div>
+    <div>
+      <h4 id="toastTitle" class="text-sm font-bold text-emerald-400">Başarılı</h4>
+      <p id="toastMessage" class="text-xs text-slate-300 font-medium">Polat baba kopyaladı</p>
+    </div>
+  </div>
+
+  <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-xs text-slate-500">
+    <span>© 2026 Mekan & Restoran İndirici • Polat Tarafından Hazırlandı • Web Sürümü v2.0 Ultra</span>
+  </footer>
+
+  <script>
+// static/js/app.js — Mekan & Restoran İndirici Web İstemcisi v2.0 Ultra
+// Polat Tarafından Hazırlandı
+
+const TURKISH_CITIES = [
+  "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
+  "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa",
+  "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan",
+  "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta",
+  "Mersin", "İstanbul", "İzmir", "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir",
+  "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Kahramanmaraş", "Mardin", "Muğla",
+  "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop",
+  "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van",
+  "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
+  "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
+].sort((a, b) => a.localeCompare(b, "tr"));
+
+const POPULAR_CITIES = ["İstanbul", "Ankara", "İzmir", "Antalya", "Bursa", "Gaziantep", "Muğla", "Trabzon", "Eskişehir"];
+
+const SERVICE_LABELS = {
+  "acik_alan":     "🌿 Açık Alan",
+  "alakart_menu":  "🍽️ Alakart Menü",
+  "alkol":         "🍷 Alkol Servisi",
+  "engelli_girisi":"♿ Engelli Girişi",
+  "otopark":       "🅿️ Otopark",
+  "rezervasyon":   "📞 Rezervasyon",
+  "sigara_alani":  "🚬 Sigara Alanı",
+  "vale":          "🚗 Vale Hizmeti",
+  "wifi":          "📶 Ücretsiz Wi-Fi",
+  "paket_servis":  "📦 Paket Servis",
+  "kahvalti":      "☕ Zengin Kahvaltı",
+  "canli_muzik":   "🎵 Canlı Müzik",
+  "aile_dostu":    "👨‍👩‍👧 Aile Dostu",
+  "evcil_hayvan":  "🐾 Evcil Hayvan Dostu",
+};
+
+const PAYMENT_LABELS = {
+  "nakit":       "💵 Nakit",
+  "kredi_karti": "💳 Kredi Kartı",
+  "debit_kart":  "🏦 Debit / Banka Kartı",
+  "temassiz":    "📱 Temassız Ödeme",
+};
+
+const DAYS_ORDER = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+
+let currentCity = "İstanbul";
+let currentVenueName = "";
+let currentVenueData = null;
+let currentPhotos = [];
+let currentCoverUrl = "";
+let currentNeYenirTitle = "Mekanda Ne Yenir?";
+
+document.addEventListener("DOMContentLoaded", () => {
+  initCitySelector();
+  checkStatus();
+  loadCachedVenues();
+  setupEventListeners();
+  setupTabs();
+});
+
+// 1. Şehir Seçici
+function initCitySelector() {
+  const select = document.getElementById("citySelect");
+  select.innerHTML = "";
+  TURKISH_CITIES.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    if (c === currentCity) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener("change", (e) => {
+    setCity(e.target.value);
+  });
+
+  const popContainer = document.getElementById("popularCities");
+  popContainer.innerHTML = "";
+  POPULAR_CITIES.forEach(c => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `px-2.5 py-1 rounded-full text-xs font-medium transition ${
+      c === currentCity ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+    }`;
+    btn.textContent = c;
+    btn.onclick = () => setCity(c);
+    popContainer.appendChild(btn);
+  });
+}
+
+function setCity(city) {
+  currentCity = city;
+  const select = document.getElementById("citySelect");
+  if (select) select.value = city;
+
+  const popContainer = document.getElementById("popularCities");
+  Array.from(popContainer.children).forEach(btn => {
+    if (btn.textContent === city) {
+      btn.className = "px-2.5 py-1 rounded-full text-xs font-medium transition bg-blue-600 text-white";
+    } else {
+      btn.className = "px-2.5 py-1 rounded-full text-xs font-medium transition bg-slate-800 text-slate-300 hover:bg-slate-700";
+    }
+  });
+
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.placeholder = `﷽ Bismillah ile ${city}'daki mekan adı (örn: Karaköy Güllüoğlu, Nusret...)`;
+  }
+}
+
+// 2. Durum ve API Kontrolü
+async function checkStatus() {
+  try {
+    const res = await fetch("/api/status");
+    const data = await res.json();
+    if (data.last_city) setCity(data.last_city);
+    if (!data.has_gemini) {
+      showToast("API Anahtarı Gerekli", "Lütfen önce Google Gemini API anahtarınızı girin.", "warning");
+      openSettingsModal();
+    }
+  } catch (err) {
+    console.error("Status check error:", err);
+  }
+}
+
+// 3. Önbellekteki Mekanlar
+async function loadCachedVenues() {
+  try {
+    const res = await fetch("/api/cache/list");
+    const data = await res.json();
+    const list = data.items || [];
+    const container = document.getElementById("cachedVenuesList");
+    const section = document.getElementById("cachedVenuesSection");
+
+    if (list.length === 0) {
+      section.classList.add("hidden");
+      return;
+    }
+
+    section.classList.remove("hidden");
+    container.innerHTML = "";
+
+    list.slice(0, 15).forEach(item => {
+      const btn = document.createElement("button");
+      btn.className = "bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition";
+      btn.innerHTML = `<span class="text-emerald-400">⚡</span> <span>${item.venue_name}</span> <span class="text-slate-400 text-[10px]">(${item.city})</span>`;
+      btn.onclick = () => {
+        setCity(item.city);
+        document.getElementById("searchInput").value = item.venue_name;
+        doSearch(item.venue_name, item.city, false);
+      };
+      container.appendChild(btn);
+    });
+  } catch (err) {
+    console.error("Cache list error:", err);
+  }
+}
+
+// 4. Tab Geçişleri
+function setupTabs() {
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabContents = {
+    tabArticles: document.getElementById("tabArticles"),
+    tabDetails: document.getElementById("tabDetails"),
+    tabServices: document.getElementById("tabServices"),
+  };
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.tab;
+
+      // Buton aktif stilleri
+      tabButtons.forEach(b => {
+        b.className = "tab-btn flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-800";
+      });
+      btn.className = "tab-btn flex-1 py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow";
+
+      if (target === "tabAll") {
+        // Tüm sekmeleri alt alta göster
+        Object.values(tabContents).forEach(c => {
+          c.classList.remove("hidden");
+          c.classList.add("flex");
+        });
+      } else {
+        // Sadece seçili sekmeyi göster
+        Object.keys(tabContents).forEach(k => {
+          if (k === target) {
+            tabContents[k].classList.remove("hidden");
+            tabContents[k].classList.add("flex");
+          } else {
+            tabContents[k].classList.add("hidden");
+            tabContents[k].classList.remove("flex");
+          }
+        });
+      }
+    });
+  });
+}
+
+// 5. Olay Dinleyicileri
+function setupEventListeners() {
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const q = searchInput.value.trim();
+      if (q) doSearch(q, currentCity, false);
+    }
+  });
+
+  searchBtn.addEventListener("click", () => {
+    const q = searchInput.value.trim();
+    if (q) doSearch(q, currentCity, false);
+  });
+
+  document.getElementById("btnRescan").addEventListener("click", () => {
+    if (currentVenueName) doSearch(currentVenueName, currentCity, true);
+  });
+
+  // Modal
+  document.getElementById("btnSettingsModal").addEventListener("click", openSettingsModal);
+  document.getElementById("btnCloseSettingsModal").addEventListener("click", closeSettingsModal);
+  document.getElementById("btnSaveSettings").addEventListener("click", saveSettingsFromModal);
+
+  // Kapak İndirme
+  document.getElementById("btnDownloadCoverTop").addEventListener("click", downloadCurrentCover);
+  document.getElementById("btnSaveCoverHeader").addEventListener("click", downloadCurrentCover);
+  document.getElementById("btnSaveCoverLarge").addEventListener("click", downloadCurrentCover);
+
+  // ZIP İndir
+  document.getElementById("btnDownloadSelectedZip").addEventListener("click", downloadSelectedZip);
+
+  // Tümünü Seç
+  document.getElementById("selectAllCheckbox").addEventListener("change", (e) => {
+    const checkboxes = document.querySelectorAll(".photo-select-checkbox");
+    checkboxes.forEach(cb => cb.checked = e.target.checked);
+    updateSelectedCount();
+  });
+
+  // Kopyalama Butonları
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-target");
+      const title = btn.getAttribute("data-title");
+      const el = document.getElementById(targetId);
+      if (el) copySingleSection(title, el.value);
+    });
+  });
+
+  document.getElementById("btnCopyAll").addEventListener("click", copyAllSections);
+  document.getElementById("btnCopyVenueDossier").addEventListener("click", copyVenueDossier);
+
+  document.getElementById("btnCopyAddressOnly").addEventListener("click", () => {
+    if (currentVenueData && currentVenueData.adres) {
+      copyPlain(currentVenueData.adres, "Adres");
+    }
+  });
+
+  document.getElementById("btnCopyPhoneOnly").addEventListener("click", () => {
+    if (currentVenueData && currentVenueData.telefon) {
+      copyPlain(currentVenueData.telefon, "Telefon Numarası");
+    }
+  });
+}
+
+// 6. Progressive Arama (Paralel ve Kademeli Yükleme)
+async function doSearch(venueName, city, forceRefresh = false) {
+  currentVenueName = venueName;
+  currentCity = city;
+
+  const loading = document.getElementById("loadingIndicator");
+  const results = document.getElementById("resultsSection");
+  const searchBtn = document.getElementById("searchBtn");
+
+  loading.classList.remove("hidden");
+  loading.classList.add("flex");
+  results.classList.add("hidden");
+  searchBtn.disabled = true;
+
+  document.getElementById("resultVenueTitle").textContent = venueName;
+  document.getElementById("resultCityBadge").textContent = city;
+
+  // Fotoğraf alanını yükleniyor moduna al
+  document.getElementById("coverStatusText").textContent = "⏳ Fotoğraflar taranıyor...";
+  document.getElementById("coverImgPreview").classList.add("hidden");
+  document.getElementById("coverImgPlaceholder").classList.remove("hidden");
+  document.getElementById("photosGrid").innerHTML = `
+    <div class="col-span-full py-12 flex flex-col items-center justify-center gap-3 text-slate-400 text-sm">
+      <div class="w-8 h-8 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+      <span>Fotoğraflar taranıyor ve canlı kontrol ediliyor...</span>
+    </div>
+  `;
+  document.getElementById("photoCountBadge").textContent = "Taranıyor...";
+
+  // 1. AŞAMA: Bilgileri Çek (Hızlı: 1-2 saniye)
+  const infoPromise = fetch("/api/search", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ venue_name: venueName, city: city, force_refresh: forceRefresh })
+  })
+  .then(r => r.json())
+  .then(infoRes => {
+    loading.classList.add("hidden");
+    loading.classList.remove("flex");
+    results.classList.remove("hidden");
+    results.classList.add("flex");
+
+    if (infoRes && infoRes.data) {
+      renderVenueInfo(infoRes.data, infoRes.is_cached, infoRes.updated_at);
+    } else if (infoRes && infoRes.error) {
+      showToast("Bilgi Hatası", infoRes.error, "error");
+    }
+  })
+  .catch(err => {
+    console.error("Info error:", err);
+    showToast("Arama Hatası", "Mekan bilgileri alınamadı.", "error");
+  });
+
+  // 2. AŞAMA: Fotoğrafları Çek (Paralel)
+  const photosPromise = fetch("/api/photos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ venue_name: venueName, city: city, force_refresh: forceRefresh })
+  })
+  .then(r => r.json())
+  .then(photosRes => {
+    if (photosRes && photosRes.photos) {
+      renderPhotos(photosRes.photos);
+    } else {
+      document.getElementById("photoCountBadge").textContent = "0 fotoğraf";
+      document.getElementById("photosGrid").innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-sm">Fotoğraf bulunamadı.</div>`;
+      document.getElementById("coverStatusText").textContent = "Görsel bulunamadı";
+    }
+  })
+  .catch(err => {
+    console.error("Photos error:", err);
+    document.getElementById("coverStatusText").textContent = "Fotoğraf yüklenemedi";
+  })
+  .finally(() => {
+    searchBtn.disabled = false;
+    loadCachedVenues();
+  });
+}
+
+// 7. Mekan Bilgilerini, Künyesini, Hizmetleri ve Saatleri Render Et
+function renderVenueInfo(data, isCached, updatedAt) {
+  currentVenueData = data;
+
+  // Rozetler & Durum
+  const badge = document.getElementById("resultCacheBadge");
+  if (isCached) {
+    badge.className = "text-emerald-400 font-medium";
+    badge.textContent = `⚡ Önbellek (0 API Kredisi) • ${updatedAt}`;
+  } else {
+    badge.className = "text-blue-400 font-medium";
+    badge.textContent = `✨ Canlı AI Bilgileri • ${updatedAt || "Yeni"}`;
+  }
+
+  // Puan & Fiyat Seviyesi & Mutfak
+  const ratingText = data.puan || "4.5/5 ⭐";
+  document.getElementById("resultRatingBadge").textContent = ratingText;
+  document.getElementById("fieldRating").textContent = ratingText;
+
+  const priceLvl = data.fiyat_seviyesi || "$$ (Orta)";
+  document.getElementById("resultPriceBadge").textContent = priceLvl;
+  document.getElementById("badgePriceLevel").textContent = priceLvl;
+
+  const cuisine = data.mutfak || "Geleneksel Türk Mutfağı";
+  document.getElementById("resultCuisineBadge").textContent = cuisine;
+
+  // 1. METİNLER (Açıklama & Makaleler)
+  let mb = data.aciklama_bilgiler || "";
+  let nb = data.ne_yenir_baslik || "";
+  let ny = data.aciklama_neyenir || "";
+  let en = data.aciklama_editor || "";
+
+  if (data.aciklama && typeof data.aciklama === "object") {
+    if (!mb) mb = data.aciklama.mekan_bilgileri || "";
+    if (!nb) nb = data.aciklama.ne_yenir_baslik || "";
+    if (!ny) ny = data.aciklama.ne_yenir || "";
+    if (!en) en = data.aciklama.editor_notu || "";
+  } else if (!mb && typeof data.aciklama === "string") {
+    mb = data.aciklama;
+  }
+
+  document.getElementById("txtBilgiler").value = mb;
+
+  currentNeYenirTitle = nb || `${currentVenueName}'da Ne Yenir?`;
+  document.getElementById("neYenirHeading").textContent = currentNeYenirTitle;
+  document.getElementById("txtNeYenir").value = ny;
+
+  document.getElementById("editorTeamTitle").textContent = `${currentCity} Mekan Rehberi Editör Ekibi`;
+  document.getElementById("txtEditor").value = en;
+  const today = new Date().toLocaleDateString("tr-TR");
+  document.getElementById("editorDateText").textContent = `Son güncelleme: ${today}`;
+
+  // 2. KÜNYE (Adres, Telefon, Web, Instagram, Kapasite, Fiyatlar)
+  const addr = data.adres || `${currentVenueName}, ${currentCity}`;
+  document.getElementById("fieldAddress").textContent = addr;
+  document.getElementById("btnOpenMaps").href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentVenueName + " " + addr)}`;
+
+  const phone = data.telefon || "-";
+  const phoneEl = document.getElementById("fieldPhone");
+  phoneEl.textContent = phone;
+  phoneEl.href = phone !== "-" ? `tel:${phone.replace(/[^0-9+]/g, '')}` : "#";
+
+  const web = data.web_sitesi || "";
+  const webEl = document.getElementById("fieldWebsite");
+  if (web) {
+    webEl.textContent = web.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+    webEl.href = web;
+  } else {
+    webEl.textContent = "-";
+    webEl.href = "#";
+  }
+
+  const ig = data.instagram || ("@" + currentVenueName.toLowerCase().replace(/[^a-z0-9]/g, ''));
+  const igEl = document.getElementById("fieldInstagram");
+  igEl.textContent = ig;
+  igEl.href = `https://www.instagram.com/${ig.replace('@', '')}/`;
+
+  document.getElementById("fieldCapacity").textContent = data.kapasite || "80-120 Kişi";
+  document.getElementById("fieldYear").textContent = data.kurulusyili || "-";
+
+  // Fiyatlar
+  document.getElementById("fieldPriceRange").textContent = data.fiyat_araligi || "350 - 700 TL (Kişi Başı)";
+  const avgPrices = data.ortalama_fiyatlar || {};
+  document.getElementById("priceMainDish").textContent = avgPrices.ana_yemek || "350 - 550 TL";
+  document.getElementById("priceDrink").textContent = avgPrices.icecek || "60 - 100 TL";
+  document.getElementById("priceDessert").textContent = avgPrices.tatli || "130 - 200 TL";
+
+  // Popüler Ürünler Rozetleri
+  const popContainer = document.getElementById("popularItemsList");
+  popContainer.innerHTML = "";
+  const popItems = data.populer_urunler || ["Özel Spesiyal Lezzetler", "Mevsim Menüsü", "Geleneksel İçecekler", "Fırın Tatlılar"];
+  popItems.forEach(item => {
+    const span = document.createElement("span");
+    span.className = "bg-slate-950 border border-slate-800 text-slate-200 text-xs px-3 py-1.5 rounded-xl font-medium shadow-sm flex items-center gap-1.5";
+    span.innerHTML = `<span class="text-amber-400">★</span> ${escapeHtml(item)}`;
+    popContainer.appendChild(span);
+  });
+
+  // 3. HİZMETLER (14 Hizmet)
+  const servicesGrid = document.getElementById("servicesGrid");
+  servicesGrid.innerHTML = "";
+  const servicesData = data.hizmetler || {};
+  Object.keys(SERVICE_LABELS).forEach(k => {
+    const isAvail = servicesData[k] !== false; // Varsayılan true veya gelen değer
+    const label = SERVICE_LABELS[k];
+    const div = document.createElement("div");
+    if (isAvail) {
+      div.className = "bg-emerald-950/40 border border-emerald-800/40 p-2.5 rounded-xl flex items-center justify-between text-xs text-emerald-200 shadow-sm";
+      div.innerHTML = `<span>${label}</span> <span class="bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full text-[10px]">✓ Var</span>`;
+    } else {
+      div.className = "bg-slate-950/60 border border-slate-800/60 p-2.5 rounded-xl flex items-center justify-between text-xs text-slate-500";
+      div.innerHTML = `<span>${label}</span> <span class="bg-slate-800 text-slate-500 font-semibold px-2 py-0.5 rounded-full text-[10px]">✕ Yok</span>`;
+    }
+    servicesGrid.appendChild(div);
+  });
+
+  // 4. ÖDEME SEÇENEKLERİ (4 Tip)
+  const paymentGrid = document.getElementById("paymentGrid");
+  paymentGrid.innerHTML = "";
+  const payData = data.odeme_tipleri || {};
+  Object.keys(PAYMENT_LABELS).forEach(k => {
+    const isAvail = payData[k] !== false;
+    const label = PAYMENT_LABELS[k];
+    const div = document.createElement("div");
+    if (isAvail) {
+      div.className = "bg-blue-950/40 border border-blue-800/40 p-2.5 rounded-xl flex flex-col items-center justify-center text-center text-xs text-blue-200";
+      div.innerHTML = `<span class="font-bold">${label}</span> <span class="text-[10px] text-emerald-400 mt-0.5">Kabul Ediliyor</span>`;
+    } else {
+      div.className = "bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center justify-center text-center text-xs text-slate-500";
+      div.innerHTML = `<span>${label}</span> <span class="text-[10px] text-slate-600 mt-0.5">Geçersiz</span>`;
+    }
+    paymentGrid.appendChild(div);
+  });
+
+  // 5. ÇALIŞMA SAATLERİ (7 Gün)
+  const hoursList = document.getElementById("workingHoursList");
+  hoursList.innerHTML = "";
+  const hoursData = data.calisma_saatleri || {};
+  const currentDayName = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"][new Date().getDay()];
+
+  DAYS_ORDER.forEach(day => {
+    const h = hoursData[day] || "10:00 - 23:00";
+    const isToday = day === currentDayName;
+    const row = document.createElement("div");
+    row.className = `py-2.5 flex items-center justify-between px-2 rounded-lg transition ${
+      isToday ? "bg-blue-600/15 border-l-4 border-blue-500 font-bold text-white" : "text-slate-300"
+    }`;
+    row.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span class="w-24">${day}:</span>
+        ${isToday ? '<span class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">BUGÜN</span>' : ''}
+      </div>
+      <span class="font-mono ${isToday ? 'text-emerald-400' : 'text-slate-400'}">${h}</span>
+    `;
+    hoursList.appendChild(row);
+  });
+}
+
+// 8. Fotoğrafları Render Et
+function renderPhotos(photos) {
+  currentPhotos = photos;
+  const grid = document.getElementById("photosGrid");
+  const countBadge = document.getElementById("photoCountBadge");
+  grid.innerHTML = "";
+  countBadge.textContent = `${photos.length} fotoğraf`;
+
+  if (!photos || photos.length === 0) {
+    grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-sm">Fotoğraf bulunamadı.</div>`;
+    return;
+  }
+
+  // İlk fotoğrafı otomatik kapak yap
+  setCoverPhoto(photos[0].url);
+
+  photos.forEach((p, idx) => {
+    const card = document.createElement("div");
+    card.className = "bg-slate-950 border border-slate-800 rounded-xl overflow-hidden relative group hover:border-blue-500/50 transition";
+
+    const proxyUrl = `/api/image-proxy?url=${encodeURIComponent(p.url)}`;
+
+    card.innerHTML = `
+      <div class="relative aspect-square overflow-hidden bg-slate-900 flex items-center justify-center">
+        <img 
+          src="${p.url}" 
+          data-orig="${p.url}"
+          alt="Foto ${idx + 1}" 
+          loading="lazy" 
+          onerror="handlePhotoError(this)" 
+          class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+        >
+        <label class="absolute top-2 left-2 z-10 bg-black/60 p-1.5 rounded-lg backdrop-blur flex items-center cursor-pointer">
+          <input type="checkbox" class="photo-select-checkbox rounded bg-slate-800 border-slate-600 text-blue-600 focus:ring-0" data-url="${p.url}" checked>
+        </label>
+        <span class="absolute bottom-2 left-2 text-[10px] bg-black/75 text-slate-300 px-2 py-0.5 rounded backdrop-blur">
+          ${p.date || "Mekan"}
+        </span>
+      </div>
+      <div class="p-2 bg-slate-900/90 flex items-center justify-between gap-1">
+        <button type="button" class="btn-make-cover text-[11px] font-bold text-blue-400 hover:text-blue-300 bg-blue-950/60 hover:bg-blue-900/60 px-2 py-1 rounded transition flex items-center gap-1" data-url="${p.url}">
+          <i class="fa-solid fa-star text-[10px]"></i> Kapak Yap
+        </button>
+        <a href="${p.url}" target="_blank" class="text-[11px] text-slate-400 hover:text-white px-1.5 py-1" title="Büyüt">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  // Olay dinleyicileri
+  grid.querySelectorAll(".btn-make-cover").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const u = btn.getAttribute("data-url");
+      setCoverPhoto(u);
+      showToast("Kapak Güncellendi", "Seçilen fotoğraf 1200×675 kapak yapıldı.");
+    });
+  });
+
+  grid.querySelectorAll(".photo-select-checkbox").forEach(cb => {
+    cb.addEventListener("change", updateSelectedCount);
+  });
+
+  updateSelectedCount();
+}
+
+function handlePhotoError(img) {
+  const orig = img.getAttribute("data-orig");
+  if (orig && !img.dataset.proxied) {
+    img.dataset.proxied = "true";
+    img.src = `/api/image-proxy?url=${encodeURIComponent(orig)}`;
+  }
+}
+
+function updateSelectedCount() {
+  const selected = document.querySelectorAll(".photo-select-checkbox:checked").length;
+  const btnText = document.getElementById("btnDownloadSelectedZipText");
+  btnText.textContent = `⬇ Seçilenleri İndir (${selected})`;
+}
+
+// 9. 1200x675 Kapak Görselini Ayarla
+async function setCoverPhoto(imgUrl) {
+  currentCoverUrl = imgUrl;
+  const preview = document.getElementById("coverImgPreview");
+  const placeholder = document.getElementById("coverImgPlaceholder");
+  const status = document.getElementById("coverStatusText");
+  const zoomBtn = document.getElementById("btnZoomCover");
+
+  status.textContent = "⏳ 1200×675 boyutlandırılıyor...";
+  zoomBtn.href = imgUrl;
+
+  try {
+    const res = await fetch("/api/cover-crop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image_url: imgUrl })
+    });
+
+    if (res.ok) {
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      preview.src = objectUrl;
+      preview.onload = () => {
+        preview.classList.remove("hidden");
+        placeholder.classList.add("hidden");
+        status.textContent = "✅ 1200×675 Kapak Hazır";
+      };
+      zoomBtn.href = objectUrl;
+    } else {
+      // Fallback: proxy üzerinden göster
+      preview.src = `/api/image-proxy?url=${encodeURIComponent(imgUrl)}`;
+      preview.onload = () => {
+        preview.classList.remove("hidden");
+        placeholder.classList.add("hidden");
+        status.textContent = "✅ 1200×675 Kapak Hazır";
+      };
+    }
+  } catch (err) {
+    preview.src = `/api/image-proxy?url=${encodeURIComponent(imgUrl)}`;
+    preview.onload = () => {
+      preview.classList.remove("hidden");
+      placeholder.classList.add("hidden");
+      status.textContent = "✅ 1200×675 Kapak Hazır";
+    };
+  }
+}
+
+// 10. Kapak İndir
+function downloadCurrentCover() {
+  if (!currentCoverUrl) {
+    showToast("Görsel Yok", "Lütfen önce bir mekan arayın.", "warning");
+    return;
+  }
+  const downloadUrl = `/api/download-cover?url=${encodeURIComponent(currentCoverUrl)}&name=${encodeURIComponent(currentVenueName || "mekan")}`;
+  window.location.href = downloadUrl;
+  showToast("İndiriliyor", "1200×675 HD Kapak görseli indiriliyor...");
+}
+
+// 11. Seçilenleri ZIP Olarak İndir
+async function downloadSelectedZip() {
+  const checkedBoxes = Array.from(document.querySelectorAll(".photo-select-checkbox:checked"));
+  const urls = checkedBoxes.map(cb => cb.getAttribute("data-url"));
+
+  if (urls.length === 0 && !currentCoverUrl) {
+    showToast("Seçim Yok", "Lütfen en az bir fotoğraf seçin.", "warning");
+    return;
+  }
+
+  showToast("Paketleniyor", "Fotoğraflar ZIP arşivine ekleniyor, lütfen bekleyin...");
+
+  try {
+    const res = await fetch("/api/download-zip", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        venue_name: currentVenueName || "mekan",
+        photo_urls: urls,
+        cover_url: currentCoverUrl
+      })
+    });
+
+    if (!res.ok) throw new Error("ZIP oluşturulamadı");
+
+    const blob = await res.blob();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${(currentVenueName || "mekan").toLowerCase().replace(/[^a-z0-9]/g, "_")}_fotograflar.zip`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast("Tamamlandı", "Tüm fotoğraflar ve 1200×675 Kapak ZIP olarak indirildi!");
+  } catch (err) {
+    showToast("İndirme Hatası", "ZIP oluşturulurken hata meydana geldi.", "error");
+  }
+}
+
+// 12. Zengin Kopyalama (HTML & Plain Text) — "Polat baba kopyaladı"
+async function copyToClipboardRich(plainText, htmlText) {
+  try {
+    if (navigator.clipboard && window.ClipboardItem) {
+      const blobPlain = new Blob([plainText], { type: "text/plain" });
+      const blobHtml = new Blob([htmlText], { type: "text/html" });
+      const data = [new ClipboardItem({ "text/plain": blobPlain, "text/html": blobHtml })];
+      await navigator.clipboard.write(data);
+      showPolatNotification();
+      return true;
+    }
+  } catch (err) {
+    console.warn("ClipboardItem fallback:", err);
+  }
+
+  try {
+    await navigator.clipboard.writeText(plainText);
+    showPolatNotification();
+    return true;
+  } catch (err) {
+    showToast("Hata", "Panoya kopyalanamadı.", "error");
+    return false;
+  }
+}
+
+function showPolatNotification() {
+  showToast("Kopyalandı", "Polat baba kopyaladı", "success");
+}
+
+function copyPlain(text, label) {
+  navigator.clipboard.writeText(text).then(() => {
+    showPolatNotification();
+  }).catch(() => {
+    showToast("Hata", `${label} kopyalanamadı.`, "error");
+  });
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Tek Bölüm Kopyala (Kalın Başlık)
+function copySingleSection(title, content) {
+  if (!content || !content.trim()) return;
+
+  const plain = `**${title}**\n\n${content.trim()}`;
+  const htmlContent = escapeHtml(content.trim()).replace(/\n/g, "<br>");
+  const html = `<h3 style="font-weight: bold; margin-bottom: 8px;"><b>${escapeHtml(title)}</b></h3>\n<p style="white-space: pre-line;">${htmlContent}</p>`;
+
+  copyToClipboardRich(plain, html);
+}
+
+// Tüm Açıklamayı Kopyala (Kalın Başlıklar)
+function copyAllSections() {
+  const tBilgi = (document.getElementById("txtBilgiler").value || "").trim();
+  const tYemek = (document.getElementById("txtNeYenir").value || "").trim();
+  const tEditor = (document.getElementById("txtEditor").value || "").trim();
+  const today = new Date().toLocaleDateString("tr-TR");
+
+  const plainParts = [];
+  const htmlParts = [];
+
+  if (tBilgi) {
+    plainParts.push(`**Mekan Bilgileri**\n\n${tBilgi}`);
+    htmlParts.push(`<h3 style="font-weight: bold; margin-bottom: 8px;"><b>Mekan Bilgileri</b></h3>\n<p style="white-space: pre-line;">${escapeHtml(tBilgi).replace(/\n/g, "<br>")}</p>`);
+  }
+
+  if (tYemek) {
+    plainParts.push(`**${currentNeYenirTitle}**\n\n${tYemek}`);
+    htmlParts.push(`<h3 style="font-weight: bold; margin-bottom: 8px;"><b>${escapeHtml(currentNeYenirTitle)}</b></h3>\n<p style="white-space: pre-line;">${escapeHtml(tYemek).replace(/\n/g, "<br>")}</p>`);
+  }
+
+  if (tEditor) {
+    plainParts.push(`**Editör Notu**\n**${currentCity} Mekan Rehberi Editör Ekibi (Doğrulanmış İşletme)**\n\n${tEditor}\n\nSon güncelleme: ${today}`);
+    htmlParts.push(
+      `<h3 style="font-weight: bold; margin-bottom: 4px;"><b>Editör Notu</b></h3>\n` +
+      `<p style="font-weight: bold; margin-bottom: 8px;"><b>${escapeHtml(currentCity)} Mekan Rehberi Editör Ekibi (Doğrulanmış İşletme)</b></p>\n` +
+      `<p style="white-space: pre-line;">${escapeHtml(tEditor).replace(/\n/g, "<br>")}</p>\n` +
+      `<p style="color: #64748b; font-size: 11px;">Son güncelleme: ${today}</p>`
+    );
+  }
+
+  const combinedPlain = plainParts.join("\n\n");
+  const combinedHtml = htmlParts.join("<br><br>\n");
+
+  copyToClipboardRich(combinedPlain, combinedHtml);
+}
+
+// Tüm Mekan Künyesini Liste Formatında Kopyala
+function copyVenueDossier() {
+  if (!currentVenueData) return;
+  const d = currentVenueData;
+
+  const lines = [
+    `🏢 MEKAN KÜNYESİ: ${currentVenueName} (${currentCity})`,
+    `----------------------------------------`,
+    `⭐ Puan: ${d.puan || '-'}`,
+    `🍴 Mutfak: ${d.mutfak || '-'}`,
+    `📍 Adres: ${d.adres || '-'}`,
+    `📞 Telefon: ${d.telefon || '-'}`,
+    `🌐 Web: ${d.web_sitesi || '-'}`,
+    `📸 Instagram: ${d.instagram || '-'}`,
+    `👥 Kapasite: ${d.kapasite || '-'}`,
+    `📅 Kuruluş Yılı: ${d.kurulusyili || '-'}`,
+    `💰 Fiyat Aralığı: ${d.fiyat_araligi || '-'} (${d.fiyat_seviyesi || ''})`,
+    `🍽️ Ana Yemek: ${d.ortalama_fiyatlar?.ana_yemek || '-'}`,
+    `☕ İçecek: ${d.ortalama_fiyatlar?.icecek || '-'}`,
+    `🍰 Tatlı: ${d.ortalama_fiyatlar?.tatli || '-'}`,
+    `\n🕐 ÇALIŞMA SAATLERİ:`,
+  ];
+
+  if (d.calisma_saatleri) {
+    DAYS_ORDER.forEach(day => {
+      lines.push(`  • ${day}: ${d.calisma_saatleri[day] || '-'}`);
+    });
+  }
+
+  lines.push(`\n🛎️ HİZMETLER:`);
+  if (d.hizmetler) {
+    Object.keys(SERVICE_LABELS).forEach(k => {
+      const v = d.hizmetler[k] !== false ? "✓" : "✗";
+      lines.push(`  • ${SERVICE_LABELS[k]}: ${v}`);
+    });
+  }
+
+  const text = lines.join("\n");
+  copyPlain(text, "Mekan Künyesi");
+}
+
+// 13. Ayarlar Modalı
+function openSettingsModal() {
+  document.getElementById("settingsModal").classList.remove("hidden");
+}
+
+function closeSettingsModal() {
+  document.getElementById("settingsModal").classList.add("hidden");
+}
+
+async function saveSettingsFromModal() {
+  const gemini = document.getElementById("modalGeminiKey").value.trim();
+  const serper = document.getElementById("modalSerperKey").value.trim();
+
+  try {
+    const res = await fetch("/api/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ gemini_key: gemini, serper_key: serper })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("Başarılı", "API Anahtarları kaydedildi!", "success");
+      closeSettingsModal();
+    }
+  } catch (err) {
+    showToast("Hata", "Ayarlar kaydedilemedi.", "error");
+  }
+}
+
+// 14. Toast Bildirim Kutusu
+let toastTimeout;
+function showToast(title, message, type = "success") {
+  const toast = document.getElementById("toast");
+  const tTitle = document.getElementById("toastTitle");
+  const tMsg = document.getElementById("toastMessage");
+
+  tTitle.textContent = title;
+  tMsg.textContent = message;
+
+  if (type === "error") {
+    tTitle.className = "text-sm font-bold text-red-400";
+    toast.className = "fixed bottom-6 right-6 z-50 transition-all duration-300 bg-slate-900 border border-red-500/50 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3";
+  } else if (type === "warning") {
+    tTitle.className = "text-sm font-bold text-amber-400";
+    toast.className = "fixed bottom-6 right-6 z-50 transition-all duration-300 bg-slate-900 border border-amber-500/50 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3";
+  } else {
+    tTitle.className = "text-sm font-bold text-emerald-400";
+    toast.className = "fixed bottom-6 right-6 z-50 transition-all duration-300 bg-slate-900 border border-emerald-500/50 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3";
+  }
+
+  toast.classList.remove("translate-y-20", "opacity-0");
+
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.add("translate-y-20", "opacity-0");
+  }, 3500);
+}
+
+</script>
+</body>
+</html>
